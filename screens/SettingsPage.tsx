@@ -1,10 +1,10 @@
 import MyButton from "../components/MyButton";
 import { View, Text, StyleSheet } from "react-native";
-import { CATEGORIES } from "../data/dummy-data";
 import NewContext from "../store/context";
-import { useState, useContext, useEffect } from "react";
+import { useContext } from "react";
+import type { HomeTabScreenProps } from "../navigation/types";
 
-function CategoriesScreen({ navigation }: any) {
+function CategoriesScreen({ navigation }: HomeTabScreenProps<"Popular">) {
   const contextData = useContext(NewContext);
   let nightOn = contextData.nightOn;
 
@@ -25,13 +25,18 @@ function CategoriesScreen({ navigation }: any) {
     >
       {(nightOn && (
         <MyButton
-          title={`Naktinis rėžimas`}
+          title={
+            (contextData.languageLt && `Naktinis rėžimas`) ||
+            `Modalità notturna`
+          }
           color={`grey`}
           onPress={pressHandler}
         />
       )) || (
         <MyButton
-          title={`Dieninis rėžimas`}
+          title={
+            (contextData.languageLt && `Dieninis rėžimas`) || `Modalità giorno`
+          }
           color={`#B8860B`}
           onPress={pressHandler}
         />

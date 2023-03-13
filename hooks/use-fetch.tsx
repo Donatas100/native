@@ -1,14 +1,19 @@
 const useFetch = async function (word: string, targetLanguage: string) {
-  //const apiKey = "AIzaSyDNAlQw5AUnaO5DNH7SOMODFCD8ucnBTd";
-
+  let result;
+  //  const url = `https://praktika-35815-default-rtdb.europe-west1.firebasedatabase.app/${targetLanguage}/${word}.json`;
   const url = `https://praktika-35815-default-rtdb.europe-west1.firebasedatabase.app/${targetLanguage}/${word}.json`;
+  try {
+    const response = await fetch(url);
 
-  const response = await fetch(url);
+    result = await response.json();
+  } catch (error: any) {
+    result = [[`error`], [error.message]];
+  }
 
-  const result = await response.json();
+  if (!result) {
+    result = [[`error`], [`zodis nerastas`]];
+  }
 
-  //console.log(result.data.translations[0].translatedText);
-  // console.log(result);
   return result;
 };
 

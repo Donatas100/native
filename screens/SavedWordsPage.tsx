@@ -1,13 +1,13 @@
 import MyButton from "../components/MyButton";
-import { View, Text, StyleSheet } from "react-native";
-import { useState, useContext, useEffect } from "react";
-import { CATEGORIES } from "../data/dummy-data";
+import { View, Text, StyleSheet, ScrollView } from "react-native";
+import { useContext } from "react";
 import NewContext from "../store/context";
+import type { HomeTabScreenProps } from "../navigation/types";
 
-function SavedWordsPage({ navigation }: any) {
+function SavedWordsPage({ navigation }: HomeTabScreenProps<"Popular">) {
   const contextData = useContext(NewContext);
   // let groupedData: string[][];
-  let groupedData: { [key: string]: any[] } = {};
+  let groupedData: { [key: string]: any } = {};
   let arrayOfGroups: string[];
   arrayOfGroups = [];
 
@@ -17,7 +17,7 @@ function SavedWordsPage({ navigation }: any) {
     console.log(event);
   }
 
-  contextData.favorites.forEach((element) => {
+  contextData.favorites.forEach((element: string[]) => {
     const group = element[0];
     if (!groupedData[group]) {
       groupedData[group] = [];
@@ -27,14 +27,14 @@ function SavedWordsPage({ navigation }: any) {
       groupedData[group].push(element);
     }
   });
-  //console.log(`groupedData`);
-  //console.log(groupedData);
-  // console.log(arrayOfGroups);
+  // console.log(contextData.favorites);
+  // //console.log(groupedData);
+  // // console.log(arrayOfGroups);
 
-  //contextData.favorites.forEach((element) => {
+  // //contextData.favorites.forEach((element) => {
 
   return (
-    <View
+    <ScrollView
       style={{
         flex: 1,
         padding: 16,
@@ -51,7 +51,7 @@ function SavedWordsPage({ navigation }: any) {
           />
         );
       })}
-    </View>
+    </ScrollView>
   );
 }
 

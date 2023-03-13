@@ -1,13 +1,12 @@
 import { createContext } from "react"
 
 
-const NewContext = createContext({ addFavorite: (action, data, data2) => { }, favorites: [], props: [], recent: [], nightOn: `` });
+const NewContext = createContext({ addFavorite: (action, group, word) => { }, favorites: [``][``], props: ``, recent: [``][``], nightOn: false, languageLt: true });
 
 export default NewContext
 
-const value = {
-    vardas: [`donatas`]
-}
+
+
 // function NewContextProvider({ children }) {
 //     return (<NewContext.Provider value="{value}">{children}</NewContext.Provider>)
 // }

@@ -1,16 +1,28 @@
 import { View, Text, StyleSheet, Button, Image } from "react-native";
 
-import { MEALS } from "../data/dummy-data";
 import MyButton from "../components/MyButton";
-import { useState, useContext, useEffect } from "react";
+import { useContext } from "react";
 import NewContext from "../store/context";
-//const image = { require( "../assets/11.jpg") };
+import type { HomeTabScreenProps } from "../navigation/types";
 
-function MealsOverviewScreen({ navigation }: any) {
+function MealsOverviewScreen({ navigation }: HomeTabScreenProps<"Popular">) {
   const contextData = useContext(NewContext);
 
+  ////////////
+  // var fr = new FileReader();
+  // fr.onload = function (e) {
+  //   // e.target.result should contain the text
+  // };
+  // fr.readAsText(`../data/data.txt`);
+
+  /////////
   function pressHandler() {
     navigation.navigate("Meniu");
+    contextData.addFavorite(`props.Ital`, ``, true);
+  }
+  function pressHandler2() {
+    navigation.navigate("Meniu");
+    contextData.addFavorite(`props.Ital`, ``, false);
   }
 
   return (
@@ -38,15 +50,26 @@ function MealsOverviewScreen({ navigation }: any) {
       </Text>
       <Text
         style={{
+          textAlign: "center",
           marginTop: 20,
+
+          color: !contextData.nightOn ? "white" : "black",
+        }}
+      >
+        Geriausias nemokamas lietuvių - italų, italų - lietuvių žodynas.
+      </Text>
+      <Text
+        style={{
+          textAlign: "center",
+          marginTop: 10,
           marginBottom: 30,
           color: !contextData.nightOn ? "white" : "black",
         }}
       >
-        Mano draugų ir pažystamų pripažintas geriausiu lietuvių - italų kalbų
-        žodynu, pelnięs ne vieną alaus apdovanojimą ir paplekšnojimą per petį.
+        Il miglior dizionario gratuito lituano-italiano, italiano-lituano.
       </Text>
       <MyButton title={`Pradėti!`} color={`#008B8B`} onPress={pressHandler} />
+      <MyButton title={`iniziare!`} color={`#008B8B`} onPress={pressHandler2} />
     </View>
   );
 }
@@ -64,7 +87,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   image: {
-    flex: 0.6,
+    flex: 0.95,
     padding: 60,
     //flexDirection: "row",
 

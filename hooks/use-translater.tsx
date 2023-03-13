@@ -48,70 +48,57 @@ const words = [
 
 const wordsit = [
   [
-    `fâbbrica`,
+    `fabbrica`,
     `gamykla, fabrikas`,
     `fâbbrica têssile (di mòbili, di scarpe)-tekstiles gamykla`,
   ],
-  [`fabbricânte`, `gamintojas`, `fabbricânte di chiavi - raktininkas`],
+  [`fabbricante`, `gamintojas`, `fabbricânte di chiavi - raktininkas`],
 
   [
-    `facilitazióne`,
+    `facilitazione`,
     `lengvata`,
     `facilitazióne di pagamento-atsiskaitymas lengvatinemis salygomis`,
   ],
   [
-    `fallimentâre`,
+    `fallimentare`,
     `katastrofiskas`,
     `fallimentâre procedura-bankroto procedura.`,
   ],
   [`fangoterapìa`, `gydymas purvu`],
 ];
 
-let sendArray = [];
-const useTanslate = function (word, language = "lt") {
-  sendArray = [`noData`];
-  if (language === "lt") {
-    for (let i = 0; i < words.length; i++) {
-      if (words[i].includes(word)) {
-        for (let j = 0; j < words[i].length; j++) {
-          if (words[i][0]) {
-            sendArray[j] = [words[i][j]];
-          }
-        }
-      }
-    }
+// let sendArray = [];
+// const useTanslate = function (word, language = "lt") {
+//   sendArray = [`noData`];
+//   if (language === "lt") {
+//     for (let i = 0; i < words.length; i++) {
+//       if (words[i].includes(word)) {
+//         for (let j = 0; j < words[i].length; j++) {
+//           if (words[i][0]) {
+//             sendArray[j] = [words[i][j]];
+//           }
+//         }
+//       }
+//     }
 
-    // if (!sendArray) {
-    //   sendArray = [`not found`];
-    // }
-  }
+//   }
 
-  if (language === "it") {
-    console.log(language);
-    for (let i = 0; i < wordsit.length; i++) {
-      if (wordsit[i].includes(word)) {
-        for (let j = 0; j < wordsit[i].length; j++) {
-          if (wordsit[i][0]) {
-            sendArray[j] = [wordsit[i][j]];
-          }
-        }
-      }
-    }
+//   if (language === "it") {
+//     console.log(language);
+//     for (let i = 0; i < wordsit.length; i++) {
+//       if (wordsit[i].includes(word)) {
+//         for (let j = 0; j < wordsit[i].length; j++) {
+//           if (wordsit[i][0]) {
+//             sendArray[j] = [wordsit[i][j]];
+//           }
+//         }
+//       }
+//     }
 
-    // if (!sendArray) {
-    //   sendArray = [`not found`];
-    // }
-  }
+//   }
 
-  return sendArray;
-  // console.log(sendArray);
-};
-// }
-//   console.log(`/////////////////////////////////////////////////`);
-//   console.log(words.k[0]);
-//   console.log(words.k[1]);
-//   console.log(words.k[2]);
-//   console.log(words.k[3]);
-// console.log(words[2]);
+//   return sendArray;
 
-export default useTanslate;
+// };
+
+// export default useTanslate;
