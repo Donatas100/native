@@ -21,7 +21,7 @@ function SavedWordsPage({ navigation }: HomeTabScreenProps<"Popular">) {
   //console.log(contextData.props);
 
   function pressHandler(event: string) {
-    console.log(event);
+    //console.log(event);
     contextData.addFavorite(`delateFromFavorite`, ``, event);
     setFavorite(true);
   }

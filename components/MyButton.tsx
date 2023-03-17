@@ -1,7 +1,12 @@
 import { Pressable, View, Text, StyleSheet, Platform } from "react-native";
 import { useState, useContext, useEffect } from "react";
 import NewContext from "../store/context";
-function MyButton({ title, color, onPress }) {
+interface MyButtonProps {
+  title: string;
+  color: string;
+  onPress: () => void;
+}
+function MyButton({ title, color, onPress }: MyButtonProps) {
   const contextData = useContext(NewContext);
   return (
     <View style={styles.gridItem}>
@@ -49,7 +54,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   buttonPressed: {
-    opacity: 0.5,
+    opacity: 0.7,
   },
   innerContainer: {
     flex: 1,

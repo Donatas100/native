@@ -3,9 +3,12 @@ import { Animated, Text, View } from "react-native";
 import type { PropsWithChildren } from "react";
 import type { ViewStyle } from "react-native";
 
-type FadeInViewProps = PropsWithChildren<{ style: ViewStyle }>;
+type FadeInViewProps = PropsWithChildren<{
+  style: ViewStyle;
+  animationEnd: () => void;
+}>;
 
-const FadeInView: React.FC<FadeInViewProps> = (props) => {
+const FadeInView = (props: FadeInViewProps) => {
   const fadeAnim = useRef(new Animated.Value(1)).current; // Initial value for opacity: 0
 
   useEffect(() => {
@@ -29,4 +32,5 @@ const FadeInView: React.FC<FadeInViewProps> = (props) => {
     </Animated.View>
   );
 };
+
 export default FadeInView;

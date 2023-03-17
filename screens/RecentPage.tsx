@@ -28,7 +28,7 @@ function SavedWordsPage({ navigation }: HomeTabScreenProps<"Popular">) {
 
   groupedData = contextData.recent;
 
-  //console.log(groupedData[0][1]);
+  // console.log(groupedData);
   return (
     <ScrollView
       style={{

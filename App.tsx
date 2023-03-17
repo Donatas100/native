@@ -1,9 +1,10 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useState, useEffect } from "react";
-
 import LandingPage from "./screens/LandingPage";
 import MeniuScreen from "./screens/MeniuScreen";
 import TranslatePage from "./screens/TranslatePage";
@@ -11,7 +12,6 @@ import SavedWordsPage from "./screens/SavedWordsPage";
 import SavedWordsPageIn from "./screens/SavedWordsPageIn";
 import RecentPage from "./screens/RecentPage";
 import Settings from "./screens/SettingsPage";
-
 import NewContext from "./store/context";
 
 const Stack = createNativeStackNavigator();
@@ -19,111 +19,59 @@ const Stack = createNativeStackNavigator();
 export default function App() {
   /////////////
 
-  let bcColor = "#708090";
+  const storeData = async (id: string, value: string[][]) => {
+    try {
+      const jsonValue = JSON.stringify(value);
+      await AsyncStorage.setItem(id, jsonValue);
+    } catch (e) {
+      // saving error
+    }
+    // console.log(value);
+  };
+
+  const getData = async (id: string) => {
+    try {
+      const jsonValue = await AsyncStorage.getItem(id);
+      return jsonValue != null ? JSON.parse(jsonValue) : null;
+    } catch (e) {
+      // error reading value
+    }
+  };
+
+  useEffect(() => {
+    //storeData(`recent`, test);
+    //storeData(`favorite`, test2);
+    asyncCall();
+  }, []);
+
+  async function asyncCall() {
+    const data = await getData("recent");
+    const data2 = await getData("favorite");
+    // console.log(data.data);
+    setSerchData(data);
+    setdata(data2);
+    // console.log(data);
+  }
+
+  let bcColor = "#567156";
   let txtColor = "white";
 
   const [languageLt, setLanguageLt] = useState(true);
   const [night, setNight] = useState(false);
   const [data1, setdata1] = useState(``);
-  const [serchData, setSerchData] = useState([
-    [
-      `kiaule`,
-      `maiale, porco`,
-      `(iškastruotas patinas) - maiale, porco`,
-      `(apie žmogų) - porco`,
-    ],
+  const [serchData, setSerchData] = useState<string[][]>([[]]);
 
-    [
-      `kose`,
-      `purè, poltiglia, pappa`,
-      `bulvių košė - purè m di patate`,
-      `daržovių sriuba - zuppa di verdura`,
-      `ryžių košė - riso al latte`,
-    ],
-    [
-      `ozys`,
-      `caprone, capro`,
-      `(zool.) (kalnų) - stambecco, ibice`,
-      `(tech.) (darbui) - cavalletto`,
-    ],
-    [
-      `sriuba`,
-      `zuppa, minestra`,
-      `bulvių sriuba - zuppa di patate`,
-      `daržovių sriuba - zuppa di verdura`,
-      `makaronų sriuba - minestra di vermicelli`,
-    ],
-    [
-      `zuvis`,
-      `pesce`,
-      `Žuvys (astr.) (horoskopas) - Pesci`,
-      `žuvies (sriuba) - di pesce`,
-      `žuvų - di pesci`,
-    ],
-    [
-      `ugdymas`,
-      `allevamento`,
-      `(auklejimas) - educazione`,
-      `(rengimas) - addestramento, allenamento`,
-    ],
-    [
-      `ukininkauti`,
-      `fare il fattore / il massaro`,
-      `(verstis zemes ukiu) fare l'imprenditore agrìcolo`,
-    ],
+  const [data, setdata] = useState<string[][]>([[]]);
 
-    [
-      `fabbrica`,
-      `gamykla, fabrikas`,
-      `fâbbrica têssile (di mòbili, di scarpe)-tekstiles gamykla`,
-    ],
-    [`fabbricante`, `gamintojas`, `fabbricânte di chiavi - raktininkas`],
-
-    [
-      `facilitazione`,
-      `lengvata`,
-      `facilitazióne di pagamento-atsiskaitymas lengvatinemis salygomis`,
-    ],
-    [
-      `fallimentare`,
-      `katastrofiskas`,
-      `fallimentâre procedura-bankroto procedura.`,
-    ],
-    [`fangoterapìa`, `gydymas purvu`],
-  ]);
-  const [data, setdata] = useState([
-    [
-      `maistas`,
-      `kose`,
-      `purè, poltiglia, pappa`,
-      `bulvių košė purè m di patate`,
-      `ryžių košė riso al latte`,
-    ],
-
-    [
-      `maistas`,
-      `sriuba`,
-      `zuppa, minestra`,
-      `bulvių sriuba zuppa di patate`,
-      `daržovių sriuba zuppa di verdura`,
-      `makaronų sriuba minestra di vermicelli`,
-    ],
-
-    [
-      `gyvunai`,
-      `kiaule`,
-      `maiale, porco`,
-      `(iškastruotas patinas) maiale, porco`,
-      `(apie žmogų) porco`,
-    ],
-  ]);
   let delateFromFavorite: string[][] = [];
-  let test = [];
 
   function addFavorite(action: string, group: string, word: any) {
     // setdata((oldData) => ({ ...oldData, group: groupIn, word: wordIn }))
     if (action === "addToFavorite") {
-      setdata((oldData) => [[group, ...word], ...oldData]);
+      const favoriteData = [[group, ...word], ...data];
+      setdata(favoriteData);
+      storeData("favorite", favoriteData);
+      // console.log(favoriteData);
     }
     if (action === "props.SavedWordsPageIn") {
       setdata1(word);
@@ -136,9 +84,14 @@ export default function App() {
         }
       });
       setdata(delateFromFavorite);
+      storeData("favorite", data);
     }
     if (action === "props.Serch") {
-      setSerchData((oldData) => [[...word], ...oldData]);
+      const serchData1 = [[...word], ...serchData];
+      setSerchData(serchData1);
+      storeData("recent", serchData1);
+      //console.log(serchData1);
+      //asyncCall();
     }
     if (action === "props.Night") {
       setNight((oldData) => !oldData);
@@ -152,7 +105,7 @@ export default function App() {
   }
 
   if (!night) {
-    bcColor = "#708090";
+    bcColor = "#567156";
     txtColor = "white";
   } else {
     bcColor = "white";
@@ -255,3 +208,67 @@ const MyTheme = {
   },
 };
 ////////////////////
+// const test = [
+//   ["ossetta", "duobutė, duobukė"],
+//   ["fiancata", "šonas", "(solo di nave) bortas"],
+//   [
+//     "felicita",
+//     "laimė",
+//     "fare la (di qcn) suteikti (kam) laimės, pradžiuginti (ką)",
+//     "(riuscire vantaggioso) išeiti (kam) į nau­dą",
+//     "il denaro non la ne piniguose laimė",
+//     "(gioia) džiaugsmas",
+//   ],
+//   [
+//     "faro",
+//     "švyturys",
+//     "(fanale) žibintas",
+//     "(la luce) šviesa",
+//     "~i abbaglianti tolimosios švies­os",
+//     "~i anabbaglianti a»timosios šviesos",
+//     "~i antinebbia rūko žibintai",
+//     "accendere (spegne­re) i ~i įjungti (išjungti) šviesas",
+//     "(proiettore) prožektorius",
+//     "fig kelrodis",
+//   ],
+//   [
+//     "falce",
+//     "pjautuvas",
+//     "(falce fienaia) dalgis",
+//     "e martello pjautuvas i» kūjis",
+//     "fig di luna mėnulio pjautuvas",
+//   ],
+//   [
+//     "fabbrica",
+//     "gamykla, fabrikas",
+//     "tessile (di mobili, di scarpe) tekstilės (baldų, avalynės) gamykla",
+//     "marchio di gamyklos markė",
+//     "la­vo­ra­re in dirbti fab­rike",
+//   ],
+//   ["uoga", "s bacca", "miško ~os frutti v di bosco"],
+//   ["ungurys", "s zool anguilla", "capitone v", "jūrinis u grongo."],
+//   [
+//     "ugnis",
+//     "s fuoco",
+//     "(liepsna) fiamma",
+//     "ugnį kurti accendere il fuoco",
+//     "dėti puodą ant ~ies mettere una pentola sul fuoco",
+//     "šnek duok man ~ies dammi da accendere",
+//     "prk meilės u la fiamma dell’amore",
+//   ],
+// ];
+
+// const test2 = [
+//   [`maitas`, "uoga", "s bacca", "miško ~os frutti v di bosco"],
+//   [`maitas`, "ungurys", "s zool anguilla", "capitone v", "jūrinis u grongo."],
+//   [
+//     `stichija`,
+//     "ugnis",
+//     "s fuoco",
+//     "(liepsna) fiamma",
+//     "ugnį kurti accendere il fuoco",
+//     "dėti puodą ant ~ies mettere una pentola sul fuoco",
+//     "šnek duok man ~ies dammi da accendere",
+//     "prk meilės u la fiamma dell’amore",
+//   ],
+// ];

@@ -29,7 +29,7 @@ function CategoriesScreen({ navigation }: HomeTabScreenProps<"Popular">) {
             (contextData.languageLt && `Naktinis rėžimas`) ||
             `Modalità notturna`
           }
-          color={`grey`}
+          color={`#567156`}
           onPress={pressHandler}
         />
       )) || (

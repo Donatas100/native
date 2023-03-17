@@ -11,7 +11,7 @@ const useFetch = async function (word: string, targetLanguage: string) {
   }
 
   if (!result) {
-    result = [[`error`], [`zodis nerastas`]];
+    result = [`error`, `zodis nerastas`];
   }
 
   return result;

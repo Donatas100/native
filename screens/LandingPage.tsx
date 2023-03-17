@@ -9,11 +9,22 @@ function MealsOverviewScreen({ navigation }: HomeTabScreenProps<"Popular">) {
   const contextData = useContext(NewContext);
 
   ////////////
-  // var fr = new FileReader();
-  // fr.onload = function (e) {
-  //   // e.target.result should contain the text
-  // };
-  // fr.readAsText(`../data/data.txt`);
+  //fetch(`../data/data.txt`).then((data) => console.log(data));
+
+  async function MediaInfo() {
+    const response = await fetch(`data.txt`);
+    const text = await response.text();
+    console.log(response);
+    return text;
+  }
+  //MediaInfo();
+
+  // fetch("data.txt")
+  //   .then((response) => response.text())
+  //   .then((data) => {
+  //     // Do something with your data
+  //     console.log(data);
+  //   });
 
   /////////
   function pressHandler() {

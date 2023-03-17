@@ -14,7 +14,7 @@ function SavedWordsPage({ navigation }: HomeTabScreenProps<"Popular">) {
   function pressHandler(event: string) {
     navigation.navigate("Favorite words");
     contextData.addFavorite(`props.SavedWordsPageIn`, ``, event);
-    console.log(event);
+    // console.log(event);
   }
 
   contextData.favorites.forEach((element: string[]) => {
